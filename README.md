@@ -8,5 +8,9 @@ on [Frontend Masters](https://frontendmasters.com).
 
 Run `air` to start the project.
 
+OR
+
+Run `go run cmd/main.go` to start the project.
+
 If that doesn't work you need to set the alias like this:
 `alias air='$(go env GOPATH)/bin/air'`
