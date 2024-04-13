@@ -7,19 +7,57 @@
 		<title>Document</title>
 		<script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
 	</head>
+	<script>
+		document.addEventListener("DOMContentLoaded", (event) => {
+			document.body.addEventListener("htmx:beforeSwap", function (evt) {
+				if (evt.detail.xhr.status === 422) {
+					// allow 422 responses to swap as we are using this as a signal that
+					// a form was submitted with bad data and want to rerender with the
+					// errors
+					//
+					// set isError to false to avoid error logging in console
+					evt.detail.shouldSwap = true;
+					evt.detail.isError = false;
+				}
+			});
+		});
+	</script>
 	<body>
-		{{ template "form" . }}
+		{{ template "form" .Form }}
 		<hr />
-		{{ template "display" . }}
+		{{ template "display" .Data }}
 	</body>
 </html>
 {{ end }} {{ block "form" . }}
-<form hx-post="/contacts" hx-target="#contacts" hx-swap="outerHTML">
-	<label>Name: <input type="text" name="name" /></label>
-	<label>Email: <input type="email" name="email" /></label>
+<form hx-post="/contacts" hx-swap="outerHTML">
+	<label
+		>Name:
+		<input
+			{{if
+			.Values.name}}
+			value="{{.Values.name}}"
+			{{end}}
+			type="text"
+			name="name"
+	/></label>
+	<label
+		>Email:
+		<input
+			{{if
+			.Values.email}}
+			value="{{.Values.email}}"
+			{{end}}
+			type="email"
+			name="email"
+	/></label>
+	{{ if .Errors.email}}
+	<p style="color: red">{{.Errors.email}}</p>
+	{{end}} {{ if .Errors.name}}
+	<p style="color: red">{{.Errors.name}}</p>
+	{{end}}
 	<button type="submit">Submit</button>
 </form>
-{{end}} {{block "display" .}}
+{{ end}} {{block "display" .}}
 <div style="display: flex; flex-direction: column" id="contacts">
 	{{range .Contacts}}
 	<div>
