@@ -14,12 +14,13 @@
 	</body>
 </html>
 {{ end }} {{ block "form" . }}
-<form>
+<form hx-post="/contacts" hx-target="#contacts" hx-swap="outerHTML">
 	<label>Name: <input type="text" name="name" /></label>
 	<label>Email: <input type="email" name="email" /></label>
+	<button type="submit">Submit</button>
 </form>
 {{end}} {{block "display" .}}
-<div style="display: flex; flex-direction: column">
+<div style="display: flex; flex-direction: column" id="contacts">
 	{{range .Contacts}}
 	<div>
 		<p>Name: <span> {{.Name}} </span></p>
