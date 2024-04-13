@@ -7,6 +7,24 @@
 		<title>Document</title>
 		<script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
 	</head>
-	<body></body>
+	<body>
+		{{ template "form" . }}
+		<hr />
+		{{ template "display" . }}
+	</body>
 </html>
-{{ end }}
+{{ end }} {{ block "form" . }}
+<form>
+	<label>Name: <input type="text" name="name" /></label>
+	<label>Email: <input type="email" name="email" /></label>
+</form>
+{{end}} {{block "display" .}}
+<div style="display: flex; flex-direction: column">
+	{{range .Contacts}}
+	<div>
+		<p>Name: <span> {{.Name}} </span></p>
+		<p>E-mail: <span> {{.Email}} </span></p>
+	</div>
+	{{end}}
+</div>
+{{end}}
