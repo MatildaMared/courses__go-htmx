@@ -63,7 +63,7 @@
 	{{range .Contacts}} {{ template "contact" .}} {{end}}
 </div>
 {{end}} {{ block "contact" .}}
-<div style="display: flex; align-items: center" id="contact-{{ .Id }}">
+<div style="display: flex; align-items: center" id="contact-{{ .Id }}" class="contact">
 	<div
 		hx-target="#contact-{{ .Id }}"
 		hx-swap="outerHTML swap:500ms"
