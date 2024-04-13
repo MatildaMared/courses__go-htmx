@@ -59,11 +59,13 @@
 </form>
 {{ end}} {{block "display" .}}
 <div style="display: flex; flex-direction: column" id="contacts">
-	{{range .Contacts}}
-	<div>
-		<p>Name: <span> {{.Name}} </span></p>
-		<p>E-mail: <span> {{.Email}} </span></p>
-	</div>
-	{{end}}
+	{{range .Contacts}} {{ template "contact" .}} {{end}}
 </div>
+{{end}} {{ block "contact" .}}
+<div>
+	<p>Name: <span> {{.Name}} </span></p>
+	<p>E-mail: <span> {{.Email}} </span></p>
+</div>
+{{end}} {{ block "oob-contact" .}}
+<div id="contacts" hx-swap-oob="afterbegin">{{template "contact" .}}</div>
 {{end}}
